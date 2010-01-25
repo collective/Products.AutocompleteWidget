@@ -17,7 +17,7 @@ To use it just create a field like:
             ),
 
 You can also use a LinesField instead of a StringField. The widget adapts automatically.
-This has the advantage that you can index the field in the catalog (keyword index). Combine this with 
+This has the advantage that you can index the field in the catalog (keyword index). Combine this with
 the filter_bogus property on the widget and the widget will prepare the entered values.
 
 It's useless without a vocabulary, and setting enforceVocabulary true doesn't
@@ -35,11 +35,10 @@ alter the behavior of the widget:
                                 the entire entry for a match (False)? (default: 0)
         actb_filter_bogus:      remove keywords that are not in the vocabulary and
                                 also remove redundant keywords, leading/trailing spaces etc.
-        actb_expand_onfocus:    expand the dropdown on focus.                            
+        actb_expand_onfocus:    expand the dropdown on focus.
         actb_complete_on_tab:   set to 0 if you want tab to move the focus to the next widget.
                                 default is 1.
-                            
 
-Thesjavascript used here is based on the widget at
-http://codeproject.com/jscript/jsactb.asp by zichun
-It is used with permission.
+
+The javascript used is based on the widget at http://codeproject.com/jscript/jsactb.asp
+by zichun and used with permission.

@@ -1,5 +1,6 @@
 1.0 - unreleased
 ----------------
+
 * Fixed safari keyboard issues. Added single select option
   [dannyb]
 
@@ -17,20 +18,20 @@ Old entries
 2005-02-09: Danny Bloemendaal
 
    * ESC shows the dropdown list
-   
+
    * onblur now works and hides the list
-   
+
    * added property to have the list expanded on focus
-   
+
    * renamed filter_bogus to actb_filter_bogus to have a consistent naming
 
 
-2005-02-08: Danny Bloemendaal   
-   
+2005-02-08: Danny Bloemendaal
+
    * replaced the javascript factory with the latets version from the original author
-  
+
    * redid the styling so the widget resembles more the standard widget formatting
-   
+
    * removed some configuration stuff that only lead to bad UI behavior
-   
+
    * added LinesField support so the field can now be indexed properly
