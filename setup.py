@@ -5,9 +5,8 @@ version = '1.2.2-dev'
 setup(name='Products.AutocompleteWidget',
       version=version,
       description="Archetypes autocomplete widget with support for String-, Lines- and ReferenceFields",
-      #long_description=open("README.txt").read() + "\n" +
-      #                 open("CHANGES.txt").read(),
-      long_description="XXX",
+      long_description=open("README.txt").read() + "\n" +
+                       open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Zope2",
         "License :: OSI Approved :: Zope Public License",
@@ -17,7 +16,7 @@ setup(name='Products.AutocompleteWidget',
       author="Jonathan Riboux, Alec Mitchell and contributors",
       author_email="jonathan.riboux@quadra-informatique.fr, plone-developers@lists.sourceforge.net",
       url='http://plone.org/products/autocompletewidget/',
-      license='ZPL',
+      license='see LICENSE.txt',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['Products'],
       include_package_data=True,

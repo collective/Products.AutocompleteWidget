@@ -1,7 +1,4 @@
-Just extract into your products directory, restart zope, and install it with
-the quickinstaller.
-
-To use it just create a field like:
+To use this package just create a field like::
 
     StringField('test_field',
             default='',
