@@ -1,0 +1,73 @@
+/* <dtml-with base_properties> (do not remove this :) */
+
+.actb_table { padding:2px;
+              border-spacing:1px;
+              position:absolute;
+              border: &dtml-borderWidth; solid &dtml-globalBorderColor;;
+              color: &dtml-linkColor;;
+              background-color: white;
+              vertical-align: top;
+              color:black;
+              font-size:110%;
+              //background-color: &dtml-contentViewBackgroundColor;;
+}
+
+.actb_div {
+position:absolute;
+overflow:auto;
+border: &dtml-borderWidth; solid &dtml-globalBorderColor;;
+background-color: white;
+padding:1.3 em;
+height:10em;
+}
+
+
+
+.actb_divRow {
+padding:0.2em 0.5em 0.1em 0.5em;
+color: black;
+background-color: white;
+display:block;
+}
+
+.actb_divRow_active {
+padding:0.2em 0.5em 0.1em 0.5em;
+background-color: &dtml-globalBorderColor;;
+color: White;
+display:block;
+}
+
+
+.actb_active { background-color: &dtml-globalBorderColor;;
+               color: White;
+}
+
+.actb_regex_match { text-decoration:underline;
+                    font-weight:bold;
+}
+
+.actb_arrow_down { background-image: url(<dtml-var portal_url>/arrowDown.gif);
+                   background-repeat: no-repeat;
+                   background-position: center center;
+                   z-index: 4;
+                   padding: 0 0 0 1em;
+                   margin: 0 1em 0 0;
+}
+
+.actb_arrow_up { background-image: url(<dtml-var portal_url>/arrowUp.gif);
+                   background-repeat: no-repeat;
+                   background-position: center center;
+                   z-index: 4;
+                   padding: 0 0 0 1em;
+                   margin: 0 1em 0 0;
+}
+
+.actb_arrow_placeholder { 
+                   z-index: 4;
+                   padding: 0 0 0 1em;
+                   margin: 0 1em 0 0;
+}
+
+
+
+/* </dtml-with> */

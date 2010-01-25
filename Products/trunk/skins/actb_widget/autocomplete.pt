@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+
+<head>
+    <title></title>
+</head>
+
+<body>
+
+    <!-- Selection Widgets -->
+
+    <metal:view_macro define-macro="view"
+                      tal:define="vocab python:field.Vocabulary(here);
+                                  value python:accessor();
+                                  display python:here.displayValue(vocab, value)">
+		<!---<p tal:content="vocab" />--->
+		<!---<p tal:content="value" />--->
+		<!---<p tal:content="display" />--->
+		<span tal:replace="structure display" />
+	</metal:view_macro>
+
+    <metal:define define-macro="edit">
+
+        <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
+
+            <metal:fill fill-slot="widget_body"
+                        tal:define="vocab python:field.Vocabulary(here);
+							        initializing python:request.get(fieldName, None)==None or request.get(fieldName, None)=='';
+									myvalue python:test(field.type=='lines', ','.join(value), value);
+                                    widget_value python:test(initializing,  test(field.type=='lines', ','.join(value), value), value)">
+        <script type="text/javascript"
+                tal:define="esc_vocab python: [v.replace('\'','\\\'') for v in vocab];
+                            vocab_list python: '\'' + '\',\''.join(esc_vocab) + '\''"
+                tal:content="string:
+              var array_${fieldName}=new Array(${vocab_list});
+        ">
+        </script>
+		<input onfocus='actb(this,event,customarray, timeout, limit, firsttext);'
+			   type='text'
+			   value=''
+			   id=''
+			   autocomplete="off"
+		       tal:attributes="name fieldName;
+							   value widget_value;
+							   size widget/size;
+							   maxlength widget/maxlength;
+							   tabindex tabindex/next;
+							   id python:field.getName() + '_widget';
+							   onfocus string:actb(this, event, array_${fieldName}, ${widget/actb_timeout},${widget/actb_lim},${widget/actb_firsttext}, ${widget/actb_expand_onfocus}, ${widget/actb_multi_select})"
+               
+			    />
+        
+        
+            </metal:fill>
+
+        </metal:use>
+
+    </metal:define>
+
+    <div metal:define-macro="search">
+        <div metal:use-macro="here/widgets/selection/macros/edit" />
+    </div>
+
+</body>
+
+</html>

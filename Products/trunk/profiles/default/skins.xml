@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+ <object name="actb_widget"
+    meta_type="Filesystem Directory View"
+    directory="Products.AutocompleteWidget:skins/actb_widget"/>
+
+ <skin-path name="*">
+  <layer name="actb_widget" insert-after="custom"/>
+ </skin-path>
+</object>
