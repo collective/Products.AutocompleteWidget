@@ -25,6 +25,9 @@ after 1.2.1
   - added issue #3 (merging with trunk) to todo.txt
   - removed refres.txt since it's no longer supported
 
+* made widget work with vocabularies containing non-ascii characters too
+  (fRiSi)
+
 
 14-03-2008 - v1.2.1 : Jonathan Riboux
 
