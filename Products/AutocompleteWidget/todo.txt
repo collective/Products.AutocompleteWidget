@@ -1,0 +1,4 @@
+* submit form or trigger a custom function on enter key press when menu is hidden
+* replace the javascript factory with the latest version from the original author
+* use a div with scrollbar instead of a table and some
+  obscure way of dealing with scrolling

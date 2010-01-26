@@ -1,0 +1,43 @@
+# Translation of autocomplete.pot to German
+# Harald Friessnegger <harald@webmeisteri.com>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 22/12/2005 14:10:44\n"
+"PO-Revision-Date: 22/12/2005 14:11:08\n"
+"Last-Translator: Harald Friessnegger <harald@webmeisterei.com>\n"
+"Language-Team: German Translation Team <harald@webmeisterei.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: de\n"
+"Language-Name: Deutsch\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: autocompletewidget\n"
+"X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
+
+# Autocomplete Widget
+msgid "action_clear"
+msgstr "Leeren"
+
+msgid "action_clear_title"
+msgstr "Das Eingabefeld leeren."
+
+msgid "action_add"
+msgstr "Hinzufügen"
+
+msgid "action_add_title"
+msgstr "Den Eingabewert der Liste hinzfügen"
+
+msgid "action_delete"
+msgstr "Entfernen"
+
+msgid "action_delete_title"
+msgstr "Diesen Wert aus der Liste entfernen"
+
+msgid "empty_list"
+msgstr "Die Liste ist leer."
+
+msgid "empty_list_title"
+msgstr "Geben sie einen Wert ein und drücken sie auf \"Hinzufügen\""
