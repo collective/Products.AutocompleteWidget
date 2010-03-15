@@ -1,3 +1,8 @@
+ATTENTION: the current release of this product on pypi is based on 
+http://svn.plone.org/svn/archetypes/MoreFieldsAndWidgets/Products.AutocompleteWidget/branches/improved_multivalued_fields_management
+
+(see http://plone.org/products/autocompletewidget/issues/3 for more information)
+
 To use this package just create a field like::
 
     StringField('test_field',
