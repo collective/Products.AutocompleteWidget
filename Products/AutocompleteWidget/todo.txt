@@ -1,10 +1,3 @@
-* submit form or trigger a custom function on enter key press when menu is hidden
-* replace the javascript factory with the latest version from the original author
-* use a div with scrollbar instead of a table and some
-  obscure way of dealing with scrolling
-
-
-
 merge with trunk
 ----------------
 
@@ -19,5 +12,18 @@ list of all changes made on trunk (before it has been eggiefied)
 http://dev.plone.org/archetypes/log/MoreFieldsAndWidgets/AutocompleteWidget/trunk?rev=12137
 
 
+merge GS Support and Safari fixes
+---------------------------------
+
 if merging it completely is not possible (since changeset 9371 is fairly extensive),
 we should at least merge the most useful changes such as GS support (9373) or the safari fixes (9672)
+
+
+other todos
+-----------
+
+* submit form or trigger a custom function on enter key press when menu is hidden
+* replace the javascript factory with the latest version from the original author
+* use a div with scrollbar instead of a table and some
+  obscure way of dealing with scrolling
+
