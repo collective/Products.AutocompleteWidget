@@ -16,7 +16,7 @@ after 1.2.1
 
 * tabindex is not available for archetypes widgets anymore and broke
   edit views in plone4 -
-  fixes http://plone.org/products/autocompletewidget/issues/4
+  fixes http://plone.org/products/autocompletewidget/issues/5
   (fRiSI)
 
 * eggified product (fRiSi)
