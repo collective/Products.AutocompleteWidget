@@ -62,4 +62,9 @@ Credits
 The javascript used is based on the widget at http://codeproject.com/jscript/jsactb.asp
 by zichun and used with permission.
 
+The `improved_multivalued_fields_management` branch which has become the new trunk of this package
+was started by `Quadra Informatique`_ <plone at quadra-informatique dot fr>.
 
+.. _`Quadra Informatique`: http://www.quadra-informatique.fr
+
+Thanks to all contributors (names listed in `Changes`_).
