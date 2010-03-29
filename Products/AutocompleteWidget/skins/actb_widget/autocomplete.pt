@@ -108,6 +108,7 @@
                                 value python:(not widget_multi) and widget_value or '';
                                 size widget/size;
                                 maxlength widget/maxlength;
+                                tabindex tabindex/next;
                                 id widget_id;
                                 onfocus string:actb(this, event, array_${fieldName}, ${widget/actb_timeout},${widget/actb_lim},${widget/actb_firsttext}, ${widget/actb_expand_onfocus}, ${widget/actb_complete_on_tab}, ${widget/actb_show_alerts})" />
             <tal:multi tal:condition="widget_multi">
