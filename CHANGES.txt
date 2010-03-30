@@ -6,6 +6,7 @@ Changes
 ----------------
 
 * Merged from trunk, keeping fixes and features
+  [Quadra Informatique - jriboux]
 
 
 From 1.0 original trunk
@@ -53,12 +54,12 @@ From 1.0 original trunk
   (fRiSi)
 
 
-2008-03-14 - v1.2.1 : Jonathan Riboux
+2008-03-14 - v1.2.1 : Quadra Informatique - Jonathan Riboux
 
    * integrated Ak Sorpa's fix to prevent &amp;, &lt; and &gt; to appear in the input box after selecting a value in the drop-down list
 
 
-2008-03-12 - v1.2 : Jonathan Riboux
+2008-03-12 - v1.2 : Quadra Informatique - Jonathan Riboux
 
    * corrected i18n attributes so AutocompleteWidget can be used in English
 
@@ -69,14 +70,14 @@ From 1.0 original trunk
    * added CSS classes to buttons
 
 
-2008-02-25 - v1.1 : Nicolas Geissel
+2008-02-25 - v1.1 : Quadra Informatique - Nicolas Geissel
 
    * using fieldName var instead of field.getName for better flexibility (widget can now be used as a search widget)
 
    * added i18n
 
 
-2008-02-07 - v1.0 : Jonathan Riboux
+2008-02-07 - v1.0 : Quadra Informatique - Jonathan Riboux
 
    * improvement of display list support (display value, but register key)
 
