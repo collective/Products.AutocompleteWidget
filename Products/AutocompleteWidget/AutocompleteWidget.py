@@ -18,8 +18,8 @@ class AutocompleteWidget(StringWidget):
                              #beginning of keyword?
         'actb_filter_bogus': 1, # 1: removes items not in the vocabulary
         'actb_expand_onfocus': 1, # expands the dropdown on field focus
+        'actb_multi_select':1, # determines if the widget allows just one keyboard or only one.
         'actb_complete_on_tab': 1, # when set to 0, pressing tab moves the focus to the next widget
-        'actb_show_alerts': 0, # when set to 1, warnings are shown when invalid value is typed
         'actb_show_clear_button': 1,
         })
 
@@ -35,8 +35,7 @@ class AutocompleteWidget(StringWidget):
             return vocab.getKey(value.strip(), value.strip())
 
     security.declarePublic('process_form')
-    def process_form(self, instance, field, form, empty_marker=None,
-                       emptyReturnsMarker=False):
+    def process_form(self, instance, field, form, empty_marker=None, emptyReturnsMarker=False):
         """ process the string into a list """
 
         value = form.get(field.getName(), None)
@@ -62,6 +61,7 @@ class AutocompleteWidget(StringWidget):
 
             # get keywords from values
             values = value.split(';')
+            values = [k.strip() for k in values]
             result = []
 
             for value in values:
@@ -76,7 +76,6 @@ class AutocompleteWidget(StringWidget):
             result = keyword and keyword or ''
 
         return result, {}
-
 
 from Products.Archetypes.Registry import registerWidget
 

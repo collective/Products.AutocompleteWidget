@@ -1,3 +1,23 @@
+//nasty browser detection
+var detect = navigator.userAgent.toLowerCase(); 
+var isIE = detect.indexOf('msie') + 1; 
+var isSaf = (detect.indexOf('applewebkit') > 0); 
+
+Array.prototype.inArray = function (value)
+// Returns true if the passed value is found in the
+// array.  Returns false if it is not.
+{
+	var i;
+	for (i=0; i < this.length; i++) {
+		// Matches identical (===), not just similar (==).
+		if (this[i] === value) {
+			return true;
+		}
+	}
+	return false;
+};
+
+
 /*    Caret Functions     */
 function getCaretEnd(obj){
     if(typeof obj.selectionEnd != "undefined"){
@@ -11,6 +31,8 @@ function getCaretEnd(obj){
             return -1;
         }
         return rb;
+    } else {
+        return obj.value.length;
     }
 }
 function getCaretStart(obj){
@@ -25,6 +47,8 @@ function getCaretStart(obj){
             return -1;
         }
         return rb;
+    } else {
+        return 0;
     }
 }
 function setCaret(obj,l){
@@ -78,16 +102,19 @@ function actb_convert_escape_chars(str) {
 }
 
 
-function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complete_on_tab, show_alerts){
+function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_select, complete_on_tab){
     /* ---- Variables ---- */
     var actb_timeOut = time_out; // Autocomplete Timeout in ms (-1: autocomplete never time out)
     var actb_lim = limit;    // Number of elements autocomplete can show (-1: no limit)
     var actb_firstText = first_text; // should the auto complete be limited to the beginning of keyword?
     var actb_mouse = true; // Enable Mouse Support
-    var actb_delimiter = new Array(';',',');  // Delimiter for multiple autocomplete. Set it to empty array for single autocomplete
+	if (multi_select) {
+        var actb_delimiter = new Array(';',',');  // Delimiter for multiple autocomplete. Set it to empty array for single autocomplete
+	} else {
+		var actb_delimiter = new Array(); 
+	}
     var actb_expand_onfocus = expand_onfocus;
     var actb_complete_on_tab = complete_on_tab;
-    var actb_show_alerts = show_alerts;
     /* ---- Variables ---- */
 
     /* --- Styles --- */
@@ -122,51 +149,35 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complet
     
     /* ---- "Constants" ---- */
 
-    
     actb_keywords = ca;
     actb_curr = obj;
     
     var oldkeydownhandler = document.onkeydown;
     var oldblurhandler = obj.onblur;
+    var oldkeypresshandler = obj.onkeypress;
     var oldkeyuphandler = obj.onkeyup;
 
-    document.onkeydown = actb_checkkey;
+    if (isIE) {
+        obj.onkeydown = actb_checkkey;
+    } else {
+		if (isSaf) {
+				obj.onkeydown = actb_checkkey;
+		}	else {
+			obj.onkeypress = actb_checkkey;
+		}
+    }
+	//document.onkeydown = actb_checkkey;
     obj.onblur = actb_clear;
     obj.onkeyup = actb_keypress;
-
-    if (!document.getElementById('tat_table') && actb_expand_onfocus) setTimeout(function(){actb_tocomplete(188)},150);
-
+	//obj.onkeypress = actb_keypress;
+    if (!obj.value && !document.getElementById('tat_div') && actb_expand_onfocus) setTimeout(function(){actb_tocomplete(188)},150);
     
     function actb_clear(evt){
-        var found = false;
-        if (actb_show_alerts) {
-	        var value = actb_curr.value; 
-	        if (value == '') {
-	            found = true;
-	        } else {
-		        for (var i=0; i<actb_keywords.length; i++) {
-		            if (value == actb_keywords[i]) {
-		                found = true;
-		                break;
-		            }
-		        }
-	        }
-        }
-        
         if (!evt) evt = event;
         document.onkeydown = oldkeydownhandler;
         actb_curr.onblur = oldblurhandler;
-        actb_curr.onkeyup = oldkeyuphandler;
+        actb_curr.onkeypress = oldkeypresshandler;
         actb_removedisp();
-
-        if (actb_show_alerts && !found) {
-            var id = actb_curr.id;
-            id = id.slice(0, id.length-7);
-            if (id.slice(id.length-6) == '_toadd')
-                id = id.slice(0, id.length-6);
-            var invalid = document.getElementById(id+'_widget_invalid');
-            alert(invalid.innerHTML);
-        }
     }
     function actb_parse(n){
         if (actb_delimiter.length > 0){
@@ -229,267 +240,129 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complet
        return max.toString()+'em';
     }
     
+    var debugShown=false;
+
     function actb_generate(){
-
-        /*if (document.getElementById('tat_rm_link')) document.body.removeChild(document.getElementById('tat_rm_link'));
-        l = document.createElement('a');
-        l.style.position='absolute';
-        l.style.top = eval(curTop() + 1) + "px";
-        l.innerHTML = 'vider';
-        l.style.left = eval(curLeft() + actb_curr.offsetWidth + 3) + "px";
-        l.id = 'tat_rm_link';
-        l.onclick = function () {
-            actb_curr.value="";
-            setTimeout("document.getElementById('"+actb_curr.id+"').focus()", 250);
-        };
-
-        document.body.appendChild(l);*/
-
+        if (!debugShown){
+           debug1 = document.createElement('div');
+           debug1.style.position='absolute';
+           debug1.style.backgroundColor='#FF0000';
+           debug1.style.color='white';
+           debug1.style.left=0;
+           debug1.style.top=0;
+           debug1.style.width=140;
+           //debug1.style.height='3em;'
+           debug1.id='debug';
+           debugShown=true;
+           document.body.appendChild(debug1);
+        }
         
-        if (document.getElementById('tat_table')){ actb_display = false;document.body.removeChild(document.getElementById('tat_table')); } 
+        if (document.getElementById('tat_div')){ 
+            div = document.getElementById('tat_div');
+            while (div.firstChild)
+                div.removeChild(div.firstChild);
+        } else {
+            div = document.createElement('div');
+            div.className = 'actb_div';
+            div.style.top = eval(curTop() + actb_curr.offsetHeight) + "px";
+            div.style.left = curLeft() + "px";
+            div.style.width=determineWidth();
+            div.id = 'tat_div';
+            actb_display=true;
+            if (actb_mouse){
+                div.onmouseout= actb_table_unfocus;
+                div.onmouseover=actb_table_focus;
+            }        
+            document.body.appendChild(div);        
+        }
+
         if (actb_kwcount == 0){
-            actb_display = false;
+            actb_removedisp();
             return;
         }
-        a = document.createElement('table');
-        a.className='actb_table';
-        //a.cellSpacing='1px';
-        //a.cellPadding='2px';
-        a.style.position='absolute';
-        a.style.top = eval(curTop() + actb_curr.offsetHeight) + "px";
-        a.style.left = curLeft() + "px";
-        a.style.width=determineWidth();
-        //a.style.backgroundColor=actb_bgColor;
-        a.id = 'tat_table';
-        document.body.appendChild(a);
-        var i;
-        var first = true;
-        var j = 1;
-        if (actb_mouse){
-            a.onmouseout= actb_table_unfocus;
-            a.onmouseover=actb_table_focus;
-        }
-        var counter = 0;
-
-        r = a.insertRow(-1);
-        c = r.insertCell(-1);
-        c.align='center';
-        c.className='actb_arrow_placeholder';
-        c.innerHTML='&nbsp;';
         
-        for (i=0;i<actb_keywords.length;i++){
-            if (actb_bool[i]){
+        var keyIndex;
+        var first = true;
+        var keyCounter = 1;
+        var counter = 0;
+        for (keyIndex=0;keyIndex<actb_keywords.length;keyIndex++){
+            if (actb_bool[keyIndex]){
                 counter++;
-                r = a.insertRow(-1);
-                if (first && !actb_tomake){
-                    r.className = 'actb_active';
-                    //r.style.backgroundColor = actb_hColor;
-                    first = false;
-                    actb_pos = counter;
-                }else if(actb_pre == i){
-                    r.className = 'actb_active';
-                    //r.style.backgroundColor = actb_hColor;
+                newDivRow = document.createElement('div');
+                div.appendChild(newDivRow);
+                newDivRow.id = 'tat_div' + (keyCounter);
+                newDivRow.className='actb_divRow';
+                newDivRow.innerHTML = actb_parse(actb_keywords[keyIndex]);
+                newDivRow.setAttribute('pos',keyCounter);
+                if (first) {
+                    newDivRow.className = 'actb_divRow_active';
                     first = false;
                     actb_pos = counter;
                 }else{
-                    //r.style.backgroundColor = actb_bgColor;
-                    r.className='';
+                    newDivRow.className='actb_divRow';
                 }
-                r.id = 'tat_tr'+(j);
-                c = r.insertCell(-1);
-                //c.style.color = actb_textColor;
-                //c.style.fontFamily = actb_fFamily;
-                //c.style.fontSize = actb_fSize;
-                c.innerHTML = actb_parse(actb_keywords[i]);
-                c.id = 'tat_td'+(j);
-                c.setAttribute('pos',j);
+                
                 if (actb_mouse){
-                    c.onclick=actb_mouseclick;
-                    c.onmouseover = actb_table_highlight;
+                    newDivRow.onclick=actb_mouseclick;
+                    newDivRow.onmouseover = actb_divRow_highlight;
                 }
-                j++;
+                keyCounter++;
             }
-            if (j - 1 == actb_lim && j < actb_total){
-                r = a.insertRow(-1);
-                //r.style.backgroundColor = actb_bgColor;
-                c = r.insertCell(-1);
-                c.className = 'actb_arrow_down';
-                //c.style.color = actb_textColor;
-                //c.style.fontFamily = 'arial narrow';
-                //c.style.fontSize = actb_fSize;
-                c.align='center';
-                //c.innerHTML = '\\/';
-                c.innerHTML = '&nbsp;';
-                if (actb_mouse){
-                    c.onclick = actb_mouse_down;
-                }
-                break;
-            }
-            
         }
-        actb_rangeu = 1;
-        actb_ranged = j-1;
         actb_display = true;
         if (actb_pos <= 0) actb_pos = 1;
     }
-    function actb_remake(){
-        document.body.removeChild(document.getElementById('tat_table'));
-
-        a = document.createElement('table');
-        a.className='actb_table';
-        a.cellSpacing='1px';
-        a.cellPadding='2px';
-        a.style.position='absolute';
-        a.style.top = eval(curTop() + actb_curr.offsetHeight) + "px";
-        a.style.left = curLeft() + "px";
-        a.style.width=determineWidth(); 
-        //a.style.backgroundColor=actb_bgColor;
-        a.id = 'tat_table';
-        if (actb_mouse){
-            a.onmouseout= actb_table_unfocus;
-            a.onmouseover=actb_table_focus;
-        }
-        document.body.appendChild(a);
-        var i;
-        var first = true;
-        var j = 1;
-        if (actb_rangeu > 1){
-            r = a.insertRow(-1);
-            //r.style.backgroundColor = actb_bgColor;
-            c = r.insertCell(-1);
-            c.className = 'actb_arrow_up';
-            //c.style.color = actb_textColor;
-            //c.style.fontFamily = 'arial narrow';
-            //c.style.fontSize = actb_fSize;
-            c.align='center';
-            //c.innerHTML = '/\\';
-            c.innerHTML='&nbsp;';
-            if (actb_mouse){
-                c.onclick = actb_mouse_up;
-            } 
-        }
-        else
-        {
-            r = a.insertRow(-1);
-            c = r.insertCell(-1);
-            c.align='center';
-            c.className='actb_arrow_placeholder';
-            c.innerHTML='&nbsp;';
-        }
-        //alert('actb_rangeu:'+actb_rangeu+' actb_ranged:'+actb_ranged);
-        //alert('total:'+actb_total);
-        //alert(j);
-        for (i=0;i<actb_keywords.length;i++){
-            if (actb_bool[i]){
-                if (j >= actb_rangeu && j <= actb_ranged){
-                    r = a.insertRow(-1);
-                    //r.style.backgroundColor = actb_bgColor;
-                    r.id = 'tat_tr'+(j);
-                    c = r.insertCell(-1);
-                    //c.style.color = actb_textColor;
-                    //c.style.fontFamily = actb_fFamily;
-                    //c.style.fontSize = actb_fSize;
-                    c.innerHTML = actb_parse(actb_keywords[i]);
-                    c.id = 'tat_td'+(j);
-                    c.setAttribute('pos',j);
-                    if (actb_mouse){
-                        c.onclick=actb_mouseclick;
-                        c.onmouseover = actb_table_highlight;
-                    }
-                    //alert('j:'+j+' kwd:'+actb_keywords[i]);
-                    j++;
-                }else{
-                    j++;
-                }
-            }
-            if (j > actb_ranged) break;
-        }
-        
-        if (actb_ranged < actb_total){
-            r = a.insertRow(-1);
-            c = r.insertCell(-1);
-            c.className = 'actb_arrow_down';
-            c.align='center';
-            c.innerHTML= '&nbsp;';
-            if (actb_mouse){
-                c.onclick = actb_mouse_down;
-            }
-        }
-        else
-        {
-            r = a.insertRow(-1);
-            c = r.insertCell(-1);
-            c.align='center';
-            c.innerHTML='&nbsp;';
-            c.className='actb_arrow_placeholder';
-        }       
-    }
+    
     function actb_goup(){
         if (!actb_display) return;
         if (actb_pos == 1) return;
-        document.getElementById('tat_tr'+actb_pos).className = '';
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_bgColor;
+        
+        // de-activate current activated item
+        document.getElementById('tat_div'+actb_pos).className = 'actb_divRow';
+        // activate previous item
         actb_pos--;
-        if (actb_pos < actb_rangeu) actb_moveup();
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_hColor;
-        document.getElementById('tat_tr'+actb_pos).className = 'actb_active';
+        activeRow = document.getElementById('tat_div'+actb_pos)
+        activeRow.className = 'actb_divRow_active';
+
+        // check if this item is still visible
+        div = document.getElementById('tat_div');
+        scrollTop = div.scrollTop;
+        divHeight = div.offsetHeight;
+
+        if (activeRow.offsetTop < scrollTop) {
+            div.scrollTop = activeRow.offsetTop
+        }
+
         if (actb_toid) clearTimeout(actb_toid);
         if (actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_timeOut);
     }
     function actb_godown(){
         if (!actb_display) return;
         if (actb_pos == actb_total) return;
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_bgColor;
-        document.getElementById('tat_tr'+actb_pos).className = '';
+
+        // de-activate current activated item
+        document.getElementById('tat_div'+actb_pos).className = 'actb_divRow';
+        
+        // activate next item
         actb_pos++;
-        if (actb_pos > actb_ranged) actb_movedown();
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_hColor;
-        document.getElementById('tat_tr'+actb_pos).className = 'actb_active';
+        activeRow = document.getElementById('tat_div'+actb_pos)
+        activeRow.className = 'actb_divRow_active';
+        
+        // check if this item is still visible
+        div = document.getElementById('tat_div');
+        scrollTop = div.scrollTop;
+        divHeight = div.offsetHeight;
+        
+        if (activeRow.offsetTop + activeRow.offsetHeight > scrollTop+divHeight) {
+            // scroll div to the active row
+            diff = activeRow.offsetTop - divHeight + activeRow.offsetHeight+4;
+            div.scrollTop = diff;
+        }
+        
         if (actb_toid) clearTimeout(actb_toid);
         if (actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_timeOut);
-    }
-    function actb_movedown(){
-        actb_rangeu++;
-        actb_ranged++;
-        actb_remake();
-    }
-    function actb_moveup(){
-        actb_rangeu--;
-        actb_ranged--;
-        actb_remake();
     }
 
-    /* Mouse */
-    function actb_mouse_down(){
-        document.getElementById('tat_tr'+actb_pos).className = '';
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_bgColor;
-        actb_pos++;
-        actb_movedown();
-        document.getElementById('tat_tr'+actb_pos).className = 'actb_active';
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_hColor;
-        actb_curr.focus();
-        actb_mouse_on_list = 0;
-        if (actb_toid) clearTimeout(actb_toid);
-        if (actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_timeOut);
-    }
-    function actb_mouse_up(evt){
-        if (!evt) evt = event;
-        if (evt.stopPropagation){
-            evt.stopPropagation();
-        }else{
-            evt.cancelBubble = true;
-        }
-        document.getElementById('tat_tr'+actb_pos).className = '';
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_bgColor;
-        actb_pos--;
-        actb_moveup();
-        document.getElementById('tat_tr'+actb_pos).className = 'actb_active';
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_hColor;
-        actb_curr.focus();
-        actb_mouse_on_list = 0;
-        if (actb_toid) clearTimeout(actb_toid);
-        if (actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_timeOut);
-    }
     function actb_mouseclick(evt){
         if (!evt) evt = event;
         if (!actb_display) return;
@@ -505,18 +378,17 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complet
         if (actb_toid) clearTimeout(actb_toid);
         if (actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list = 0;actb_removedisp();},actb_timeOut);
     }
-    function actb_table_highlight(){
+
+    function actb_divRow_highlight(){
         actb_mouse_on_list = 1;
-        document.getElementById('tat_tr'+actb_pos).className = '';
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_bgColor;
+        document.getElementById('tat_div'+actb_pos).className = 'actb_divRow';
         actb_pos = this.getAttribute('pos');
-        while (actb_pos < actb_rangeu) actb_moveup();
-        while (actb_pos > actb_ranged) actb_mousedown();
-        document.getElementById('tat_tr'+actb_pos).className = 'actb_active';
-        //document.getElementById('tat_tr'+actb_pos).style.backgroundColor = actb_hColor;
+        document.getElementById('tat_div'+actb_pos).className = 'actb_divRow_active';
+        
         if (actb_toid) clearTimeout(actb_toid);
         if (actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list = 0;actb_removedisp();},actb_timeOut);
     }
+
     /* ---- */
 
     function actb_insertword(a){
@@ -541,9 +413,6 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complet
         }else{
             actb_curr.value = a;
         }
-        if (actb_curr.onchange) {
-            actb_curr.onchange()
-        }
         actb_mouse_on_list = 0;
         actb_removedisp();
         
@@ -561,7 +430,9 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complet
         for (var i=0;i<=actb_keywords.length;i++){
             if (actb_bool[i]) c++;
             if (c == actb_pos){
-                word = actb_keywords[i];
+                appendix = '';
+                if (arguments.length>0) appendix = arguments[0];
+                word = actb_keywords[i] + appendix;
                 break;
             }
         }
@@ -570,50 +441,81 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complet
     function actb_removedisp(){
         if (!actb_mouse_on_list){
             actb_display = false;
-            if (document.getElementById('tat_table')){
-                document.body.removeChild(document.getElementById('tat_table')); 
+            if (document.getElementById('tat_div')){ 
+                document.body.removeChild(document.getElementById('tat_div')); 
             }
-            /*if (document.getElementById('tat_rm_link')){ 
-                setTimeout("document.body.removeChild(document.getElementById('tat_rm_link'))", 250);
-            }*/
             if (actb_toid) clearTimeout(actb_toid);
         }
     }
     function actb_keypress(){
+	    //debug1.innerHTML = debug1.innerHTML + '<br />actb_keypress';
         return !actb_caretmove;
     }
     function actb_checkkey(evt){
+	    //debug1.innerHTML = debug1.innerHTML + '<br />actb_keydown';
         if (!evt) evt = event;
         a = evt.keyCode;
+        //debug1.innerHTML = debug1.innerHTML + '<br />keyCode=' + evt.keyCode+' , charCode='+evt.charCode;
         caret_pos_start = getCaretStart(actb_curr);
         actb_caretmove = 0;
+
+
+        charCode = evt.charCode;
+
+		if (!charCode) charCode = evt.keyCode;
+		
+        if (charCode!=0 && actb_display) {
+		        character = String.fromCharCode(charCode);
+				if (actb_delimiter.inArray(character)) {
+					actb_penter(character);
+					actb_caretmove = 1;
+                    actb_expand_onfocus && setTimeout(function(){actb_tocomplete(188)},50);
+					return false;
+				}
+        }
+
         switch (a){
             case 27:  // esc to show the menu
-                setTimeout(function(){actb_tocomplete(a)},50);
+                if (!actb_display) {
+                    setTimeout(function(){actb_tocomplete(a)},50);
+                } else {
+                    actb_removedisp();
+                }
                 break
             case 38:
                 actb_goup();
                 actb_caretmove = 1;
                 return false;
                 break;
-            case 40:
-                actb_godown();
-                actb_caretmove = 1;
-                return false;
+            case 40: //show menu if not already open
+                if (!actb_display) {
+                    setTimeout(function(){actb_tocomplete(27)},50);
+                } else {
+                    actb_godown();
+                    actb_caretmove = 1;
+                    return false;
+                }
                 break;
             case 13:
                 actb_penter();
                 actb_caretmove = 1;
                 return false;
                 break;
-            case 9:
-                if (actb_complete_on_tab && actb_display) {
+            case 39: //complete on right arrow
+                if (actb_display) {
                     actb_penter();
                     actb_caretmove = 1;
                     return false;
+                }
+                break;
+            case 9: //complete on tab
+                if (actb_complete_on_tab) {
+                    if (actb_display) {
+                        actb_penter();
+                        actb_caretmove = 1;
+                        return true;
+                    }
                     break;
-                } else {
-                  break
                 }
             default:
                 setTimeout(function(){actb_tocomplete(a)},50);
@@ -622,7 +524,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complet
     }
 
     function actb_tocomplete(kc){
-        if (kc == 38 || kc == 40 || kc == 13) return;
+        if (kc == 38 || kc == 40 || kc == 13 || kc == 39) return;
         var i;
         if (actb_display){ 
             var word = 0;
@@ -638,11 +540,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, complet
         }else{ actb_pre = -1};
         
         actb_mouse_on_list = 0;
-        //if (actb_curr.value == ''){
-            //actb_mouse_on_list = 0;
-            //actb_removedisp();
-            //return;
-        //}
+
         if (actb_delimiter.length > 0){
             caret_pos_start = getCaretStart(actb_curr);
             caret_pos_end = getCaretEnd(actb_curr);

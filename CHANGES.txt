@@ -1,7 +1,28 @@
 Changes
 =======
 
-1.3 (2010-03-15)
+
+1.4 - unreleased
+----------------
+
+* Merged from trunk, keeping fixes and features
+
+
+From 1.0 original trunk
+-----------------------
+
+* Fixed safari keyboard issues. Added single select option
+  [dannyb]
+
+* Updated to use a GenericSetup profile for installation
+  [wichert]
+
+* Change the templates to use a div based dropdown, giving a sane
+  scrolling experience.
+  [dannyb]
+
+
+1.3 (15-03-2010)
 ----------------
 
 * Added possibility to hide the clear button
@@ -32,12 +53,12 @@ Changes
   (fRiSi)
 
 
-14-03-2008 - v1.2.1 : Jonathan Riboux
+2008-03-14 - v1.2.1 : Jonathan Riboux
 
    * integrated Ak Sorpa's fix to prevent &amp;, &lt; and &gt; to appear in the input box after selecting a value in the drop-down list
 
 
-12-03-2008 - v1.2 : Jonathan Riboux
+2008-03-12 - v1.2 : Jonathan Riboux
 
    * corrected i18n attributes so AutocompleteWidget can be used in English
 
@@ -48,14 +69,14 @@ Changes
    * added CSS classes to buttons
 
 
-25-02-2008 - v1.1 : Nicolas Geissel
+2008-02-25 - v1.1 : Nicolas Geissel
 
    * using fieldName var instead of field.getName for better flexibility (widget can now be used as a search widget)
 
    * added i18n
 
 
-07-02-2008 - v1.0 : Jonathan Riboux
+2008-02-07 - v1.0 : Jonathan Riboux
 
    * improvement of display list support (display value, but register key)
 
@@ -66,7 +87,7 @@ Changes
    * cleanup of process_form code
 
 
-09-02-2005: Danny Bloemendaal
+2005-02-09: Danny Bloemendaal
 
    * ESC shows the dropdown list
 
@@ -77,7 +98,7 @@ Changes
    * renamed filter_bogus to actb_filter_bogus to have a consistent naming
 
 
-08-02-2005: Danny Bloemendaal
+2005-02-08: Danny Bloemendaal
 
    * replaced the javascript factory with the latets version from the original author
 

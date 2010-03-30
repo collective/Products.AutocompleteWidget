@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="autocompletewidget">
+
+    <i18n:registerTranslations directory="locales" />
+
+    <genericsetup:registerProfile
+        name="default"
+        title="Auto completion widget"
+        directory="profiles/default"
+        description="Auto completion widget for Archetypes"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        />
+
+</configure>
