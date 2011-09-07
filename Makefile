@@ -1,6 +1,7 @@
 #!/usr/bin/make
 #
-all: bin/instance omelette test
+test: bin/test
+	./bin/test
 
 bin/python:
 	virtualenv-2.6 --no-site-packages .
@@ -9,18 +10,18 @@ bin/buildout: bin/python bootstrap.py buildout.cfg
 	./bin/python bootstrap.py
 
 bin/test: bin/buildout buildout.cfg setup.py
-	./bin/buildout -vt 5 install test
+	./bin/buildout -Nvt 5 install test
 
 bin/instance: bin/buildout buildout.cfg setup.py
-	./bin/buildout -vt 5 install instance
+	./bin/buildout -Nvt 5 install instance
 
 parts/omelette: bin/buildout buildout.cfg setup.py
-	./bin/buildout -vt 5 install omelette
+	./bin/buildout -Nvt 5 install omelette
 
-.PHONY: test instance cleanall omelette
+.PHONY: test instance cleanall omelette all
 
-test: bin/test
-	./bin/test
+all: bin/buildout
+	./bin/buildout -Nvt 5
 
 omelette: parts/omelette
 
