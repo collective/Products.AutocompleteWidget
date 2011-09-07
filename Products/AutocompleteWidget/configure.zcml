@@ -3,6 +3,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="plone">
 
+    <include package="collective.js.jqueryui" />
+
     <genericsetup:registerProfile
         name="default"
         title="Auto completion widget"
