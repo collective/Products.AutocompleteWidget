@@ -38,8 +38,10 @@ alter the behavior of the widget:
                                 beginning of keyword (True), or should it search
                                 the entire entry for a match (False)? (default: 0)
         actb_filter_bogus:      remove keywords that are not in the vocabulary and
-  also remove redundant keywords, leading/trailing spaces etc.
+                                also remove redundant keywords, leading/trailing spaces etc.
+
         actb_expand_onfocus:    expand the dropdown on focus.
+
         actb_complete_on_tab:   set to 0 if you want tab to move the focus to the next widget.
                                 default is 1.
 
