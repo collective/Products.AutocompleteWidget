@@ -70,7 +70,6 @@ class AutocompleteWidget(StringWidget):
             result = []
 
             for value in values:
-                value = value.encode(encoding)  #USES THE LDAP ENCODING OR IF NOT AVAILABLE utf8 
                 keyword = kw_from_value()
                 if keyword and keyword not in result:
                     result.append(keyword)
