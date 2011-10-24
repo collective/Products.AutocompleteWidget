@@ -2,10 +2,6 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.public import StringWidget
 from Products.CMFPlone.utils import safe_unicode
 from logging import getLogger
-try:
-    from Products.LDAPUserFolder.utils import encoding
-except:
-    encoding = 'utf8'
 
 logger = getLogger('AutocompleteWidget')
 
