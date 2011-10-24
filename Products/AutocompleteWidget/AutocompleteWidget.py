@@ -22,6 +22,7 @@ class AutocompleteWidget(StringWidget):
         'actb_multi_select':1, # determines if the widget allows just one keyboard or only one.
         'actb_complete_on_tab': 1, # when set to 0, pressing tab moves the focus to the next widget
         'actb_show_clear_button': 1,
+        'encoding' : None, # used for vocabulary value encoding for vocabulary keys comparison, otherwise the getTerm method won't correctly get the associated key
         })
 
     security.declarePrivate('keyword_from_value')
@@ -62,7 +63,10 @@ class AutocompleteWidget(StringWidget):
 
             # get keywords from values
             values = value.split(';')
-            values = [k.strip() for k in values]
+            if self.encoding:
+                values = [k.strip().encode(self.encoding) for k in values]
+            else:
+                values = [k.strip() for k in values]
             result = []
 
             for value in values:
