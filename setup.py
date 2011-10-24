@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.4.0-dev'
+version = '1.4.1'
 
 setup(name='Products.AutocompleteWidget',
       version=version,
