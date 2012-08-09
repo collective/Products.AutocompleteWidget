@@ -5,6 +5,9 @@ Changes
 1.4 - unreleased
 ----------------
 
+* Consider, by default, lines fields as multiValued fields.
+  [thomasdesvenain]
+
 * Merged from trunk, keeping fixes and features
   [Quadra Informatique - jriboux]
 

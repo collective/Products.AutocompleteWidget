@@ -44,6 +44,7 @@ class AutocompleteWidget(StringWidget):
         value = value and safe_unicode(value) or None
 
         # no value!
+        import pdb;pdb.set_trace()
         if not value:
             return (field.type=='lines' or field.multiValued) and [] or '', {}
 
@@ -57,7 +58,7 @@ class AutocompleteWidget(StringWidget):
                 # keep bogus keywords if no keyword, use value
                 return vocab.getKey(value.strip(), value.strip())
 
-        if field.multiValued:
+        if field.multiValued or field.type=='lines':
             # make delimiters uniform
             value = value.replace(',', ';')
 
