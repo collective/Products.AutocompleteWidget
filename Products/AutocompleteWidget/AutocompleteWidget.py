@@ -44,7 +44,6 @@ class AutocompleteWidget(StringWidget):
         value = value and safe_unicode(value) or None
 
         # no value!
-        import pdb;pdb.set_trace()
         if not value:
             return (field.type=='lines' or field.multiValued) and [] or '', {}
 
