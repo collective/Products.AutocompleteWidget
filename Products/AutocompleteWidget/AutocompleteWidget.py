@@ -1,6 +1,7 @@
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.public import StringWidget
 from Products.CMFPlone.utils import safe_unicode
+from Products.CMFCore.utils import getToolByName
 from logging import getLogger
 
 logger = getLogger('AutocompleteWidget')
@@ -57,9 +58,11 @@ class AutocompleteWidget(StringWidget):
                 # keep bogus keywords if no keyword, use value
                 return vocab.getKey(value.strip(), value.strip())
 
+        additional_separators = getToolByName(instance, 'portal_properties').site_properties.atcb_additional_separators
         if field.multiValued or field.type=='lines':
             # make delimiters uniform
-            value = value.replace(',', ';')
+            for additionnal_separator in additional_separators:
+                value = value.replace(additionnal_separator, ';')
 
             # get keywords from values
             values = value.split(';')

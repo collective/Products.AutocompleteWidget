@@ -5,6 +5,10 @@ Changes
 1.4 - unreleased
 ----------------
 
+* Added a property in site_properties to define custom separators.
+  "," is set as a custom separator by default. ";" is always a separator.
+  [thomasdesvenain]
+
 * Fixed: was unusable out of the box with default sunburst theme.
   [thomasdesvenain]
 
