@@ -87,7 +87,7 @@
                                 value python:value!=None and value or '';
                                 widget_value python:(same_type(value, ()) or same_type(value, [])) and ';;'.join([here.displayValue(vocab, x) or x for x in value]) or here.displayValue(vocab, value) or '';
                                 widget_id python:fieldName + (widget_multi and '_toadd_widget' or '_widget');
-                                widget_name python:(not widget_multi) and fieldName or nothing;">
+                                widget_name python:(not widget_multi) and fieldName or fieldName + '_toadd';">
 
 			<script type="text/javascript"
                 tal:define="esc_vocab python: [v.replace('\'','\\\'') for v in vocab.values()];

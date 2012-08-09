@@ -24,6 +24,7 @@ class AutocompleteWidget(StringWidget):
         'actb_complete_on_tab': 1, # when set to 0, pressing tab moves the focus to the next widget
         'actb_show_clear_button': 1,
         'encoding' : None, # used for vocabulary value encoding for vocabulary keys comparison, otherwise the getTerm method won't correctly get the associated key
+        'actb_multivalued_adding_is_required': True, # if true, input content of a multivalued widget won't be considered if 'add' button hasn't been clicked
         })
 
     security.declarePrivate('keyword_from_value')
@@ -50,13 +51,17 @@ class AutocompleteWidget(StringWidget):
 
         vocab = field.Vocabulary(instance)
 
-        def kw_from_value():
+        def kw_from_value(val):
+            val = val.strip()
+            if self.encoding:
+                val = val.encode(self.encoding)
+
             if self.actb_filter_bogus:
                 # delete bogus keywords
-                return vocab.getKey(value.strip(), None)
+                return vocab.getKey(val.strip(), None)
             else:
                 # keep bogus keywords if no keyword, use value
-                return vocab.getKey(value.strip(), value.strip())
+                return vocab.getKey(val.strip(), val.strip())
 
         additional_separators = getToolByName(instance, 'portal_properties').site_properties.atcb_additional_separators
         if field.multiValued or field.type=='lines':
@@ -66,21 +71,23 @@ class AutocompleteWidget(StringWidget):
 
             # get keywords from values
             values = value.split(';')
-            if self.encoding:
-                values = [k.strip().encode(self.encoding) for k in values]
-            else:
-                values = [k.strip() for k in values]
             result = []
 
             for value in values:
-                keyword = kw_from_value()
+                keyword = kw_from_value(value)
                 if keyword and keyword not in result:
                     result.append(keyword)
 
-            if field.type!='lines' and field.type!='reference':
+            if not self.actb_multivalued_adding_is_required:
+                value = form.get(field.getName() + '_toadd', None)
+                keyword = kw_from_value(value)
+                if keyword and keyword not in result:
+                    result.append(keyword)
+
+            if field.type != 'lines' and field.type != 'reference':
                 result= ';'.join(result)
         else:
-            keyword = kw_from_value()
+            keyword = kw_from_value(value)
             result = keyword and keyword or ''
 
         return result, {}
