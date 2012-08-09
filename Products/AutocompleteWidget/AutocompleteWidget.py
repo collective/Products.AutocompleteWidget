@@ -42,12 +42,22 @@ class AutocompleteWidget(StringWidget):
     def process_form(self, instance, field, form, empty_marker=None, emptyReturnsMarker=False):
         """ process the string into a list """
 
-        value = form.get(field.getName(), None)
-        value = value and safe_unicode(value) or None
+        value = form.get(field.getName(), '')
+        value = safe_unicode(value) or ''
+        input_toadd_value = form.get(field.getName() + '_toadd', None)
 
         # no value!
-        if not value:
-            return (field.type=='lines' or field.multiValued) and [] or '', {}
+        if field.type=='lines' or field.multiValued:
+            if value:
+                pass
+            elif (not self.actb_multivalued_adding_is_required) \
+                    and input_toadd_value:
+                # user filled to_add field
+                pass
+            else:
+                return [], {}
+        elif not value:
+            return '', {}
 
         vocab = field.Vocabulary(instance)
 
@@ -63,7 +73,8 @@ class AutocompleteWidget(StringWidget):
                 # keep bogus keywords if no keyword, use value
                 return vocab.getKey(val.strip(), val.strip())
 
-        additional_separators = getToolByName(instance, 'portal_properties').site_properties.atcb_additional_separators
+        ptool = getToolByName(instance, 'portal_properties')
+        additional_separators = ptool.site_properties.atcb_additional_separators
         if field.multiValued or field.type=='lines':
             # make delimiters uniform
             for additionnal_separator in additional_separators:
@@ -79,8 +90,7 @@ class AutocompleteWidget(StringWidget):
                     result.append(keyword)
 
             if not self.actb_multivalued_adding_is_required:
-                value = form.get(field.getName() + '_toadd', None)
-                keyword = kw_from_value(value)
+                keyword = kw_from_value(input_toadd_value)
                 if keyword and keyword not in result:
                     result.append(keyword)
 
