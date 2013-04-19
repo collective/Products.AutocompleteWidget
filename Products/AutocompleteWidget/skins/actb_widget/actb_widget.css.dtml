@@ -3,23 +3,24 @@
 .actb_div {
     position:absolute;
     overflow:auto;
-    border: &dtml-borderWidth; solid &dtml-globalBorderColor;;
-    background-color: white;
+    border: &dtml-borderWidth; solid &dtml-globalBackgroundColor;;
+    background-color: &dtml-globalBackgroundColor;;
     padding:0;
-    height:10em;
+    max-height:10em;
     text-align:left;
 }
 
 .actb_divRow {
     padding:0.2em 0.5em 0.1em 0.5em;
-    color: black;
-    background-color: white;
+    color: &dtml-fontColor;;
+    background-color: &dtml-globalBorderColor;;
 }
 
 .actb_divRow_active {
     padding:0.2em 0.5em 0.1em 0.5em;
-    background-color: &dtml-globalBorderColor;;
-    color: White;
+    color: &dtml-fontColor;;
+    cursor: default;
+    background-color: &dtml-globalBackgroundColor;;
 }
 
 
@@ -64,6 +65,7 @@
     text-transform: &dtml-textTransform;;
 }
 
+#content .autocomplete ul,
 .autocomplete ul {
     font-size: 90%;
     margin: 0px;
@@ -83,6 +85,7 @@
     padding: 0px 3px;
     border-left: &dtml-borderWidth; &dtml-borderStyle; &dtml-globalBorderColor;;
 }
- 
+
+
 
 /* </dtml-with> */

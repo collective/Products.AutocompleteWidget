@@ -1,7 +1,7 @@
 //nasty browser detection
-var detect = navigator.userAgent.toLowerCase(); 
-var isIE = detect.indexOf('msie') + 1; 
-var isSaf = (detect.indexOf('applewebkit') > 0); 
+var detect = navigator.userAgent.toLowerCase();
+var isIE = detect.indexOf('msie') + 1;
+var isSaf = (detect.indexOf('applewebkit') > 0);
 
 Array.prototype.inArray = function (value)
 // Returns true if the passed value is found in the
@@ -56,7 +56,7 @@ function setCaret(obj,l){
     if (obj.setSelectionRange){
         obj.setSelectionRange(l,l);
     }else if(obj.createTextRange){
-        m = obj.createTextRange();      
+        m = obj.createTextRange();
         m.moveStart('character',l);
         m.collapse();
         m.select();
@@ -70,7 +70,7 @@ String.prototype.addslashes = function(){
 }
 String.prototype.trim = function () {
     return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
-}; 
+};
 function actb_convert_escape_chars(str) {
     // Thanks to Ak Sorpa for this function
     // When a string is assigned to innerHTML, it will be converted
@@ -109,9 +109,9 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
     var actb_firstText = first_text; // should the auto complete be limited to the beginning of keyword?
     var actb_mouse = true; // Enable Mouse Support
 	if (multi_select) {
-        var actb_delimiter = new Array(';',',');  // Delimiter for multiple autocomplete. Set it to empty array for single autocomplete
+        var actb_delimiter = new Array(&dtml-atcb_separators;);  // Delimiter for multiple autocomplete. Set it to empty array for single autocomplete
 	} else {
-		var actb_delimiter = new Array(); 
+		var actb_delimiter = new Array();
 	}
     var actb_expand_onfocus = expand_onfocus;
     var actb_complete_on_tab = complete_on_tab;
@@ -146,12 +146,12 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
     var actb_kwcount = 0;
     var actb_caretmove = false;
 
-    
+
     /* ---- "Constants" ---- */
 
     actb_keywords = ca;
     actb_curr = obj;
-    
+
     var oldkeydownhandler = document.onkeydown;
     var oldblurhandler = obj.onblur;
     var oldkeypresshandler = obj.onkeypress;
@@ -171,7 +171,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
     obj.onkeyup = actb_keypress;
 	//obj.onkeypress = actb_keypress;
     if (!obj.value && !document.getElementById('tat_div') && actb_expand_onfocus) setTimeout(function(){actb_tocomplete(188)},150);
-    
+
     function actb_clear(evt){
         if (!evt) evt = event;
         document.onkeydown = oldkeydownhandler;
@@ -196,7 +196,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
             var re = new RegExp(t, "i");
         }
         var p = n.search(re);
-                
+
         for (i=0;i<p;i++){
             tobuild += n.substr(i,1);
         }
@@ -228,7 +228,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
         }
         return actb_toreturn;
     }
-    
+
     function determineWidth(){
        var max=0;
        for (i=0;i<actb_keywords.length;i++){
@@ -239,7 +239,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
        max++;
        return max.toString()+'em';
     }
-    
+
     var debugShown=false;
 
     function actb_generate(){
@@ -256,8 +256,8 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
            debugShown=true;
            document.body.appendChild(debug1);
         }
-        
-        if (document.getElementById('tat_div')){ 
+
+        if (document.getElementById('tat_div')){
             div = document.getElementById('tat_div');
             while (div.firstChild)
                 div.removeChild(div.firstChild);
@@ -272,15 +272,15 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
             if (actb_mouse){
                 div.onmouseout= actb_table_unfocus;
                 div.onmouseover=actb_table_focus;
-            }        
-            document.body.appendChild(div);        
+            }
+            document.body.appendChild(div);
         }
 
         if (actb_kwcount == 0){
             actb_removedisp();
             return;
         }
-        
+
         var keyIndex;
         var first = true;
         var keyCounter = 1;
@@ -301,7 +301,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
                 }else{
                     newDivRow.className='actb_divRow';
                 }
-                
+
                 if (actb_mouse){
                     newDivRow.onclick=actb_mouseclick;
                     newDivRow.onmouseover = actb_divRow_highlight;
@@ -312,11 +312,11 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
         actb_display = true;
         if (actb_pos <= 0) actb_pos = 1;
     }
-    
+
     function actb_goup(){
         if (!actb_display) return;
         if (actb_pos == 1) return;
-        
+
         // de-activate current activated item
         document.getElementById('tat_div'+actb_pos).className = 'actb_divRow';
         // activate previous item
@@ -342,23 +342,23 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
 
         // de-activate current activated item
         document.getElementById('tat_div'+actb_pos).className = 'actb_divRow';
-        
+
         // activate next item
         actb_pos++;
         activeRow = document.getElementById('tat_div'+actb_pos)
         activeRow.className = 'actb_divRow_active';
-        
+
         // check if this item is still visible
         div = document.getElementById('tat_div');
         scrollTop = div.scrollTop;
         divHeight = div.offsetHeight;
-        
+
         if (activeRow.offsetTop + activeRow.offsetHeight > scrollTop+divHeight) {
             // scroll div to the active row
             diff = activeRow.offsetTop - divHeight + activeRow.offsetHeight+4;
             div.scrollTop = diff;
         }
-        
+
         if (actb_toid) clearTimeout(actb_toid);
         if (actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list=0;actb_removedisp();},actb_timeOut);
     }
@@ -384,7 +384,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
         document.getElementById('tat_div'+actb_pos).className = 'actb_divRow';
         actb_pos = this.getAttribute('pos');
         document.getElementById('tat_div'+actb_pos).className = 'actb_divRow_active';
-        
+
         if (actb_toid) clearTimeout(actb_toid);
         if (actb_timeOut > 0) actb_toid = setTimeout(function(){actb_mouse_on_list = 0;actb_removedisp();},actb_timeOut);
     }
@@ -415,7 +415,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
         }
         actb_mouse_on_list = 0;
         actb_removedisp();
-        
+
         i = actb_curr.id.lastIndexOf('_toadd_widget');
         if (i != -1) {
             var id = actb_curr.id.substr(0,i);
@@ -441,8 +441,8 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
     function actb_removedisp(){
         if (!actb_mouse_on_list){
             actb_display = false;
-            if (document.getElementById('tat_div')){ 
-                document.body.removeChild(document.getElementById('tat_div')); 
+            if (document.getElementById('tat_div')){
+                document.body.removeChild(document.getElementById('tat_div'));
             }
             if (actb_toid) clearTimeout(actb_toid);
         }
@@ -463,7 +463,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
         charCode = evt.charCode;
 
 		if (!charCode) charCode = evt.keyCode;
-		
+
         if (charCode!=0 && actb_display) {
 		        character = String.fromCharCode(charCode);
 				if (actb_delimiter.inArray(character)) {
@@ -526,7 +526,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
     function actb_tocomplete(kc){
         if (kc == 38 || kc == 40 || kc == 13 || kc == 39) return;
         var i;
-        if (actb_display){ 
+        if (actb_display){
             var word = 0;
             var c = 0;
             for (var i=0;i<=actb_keywords.length;i++){
@@ -538,13 +538,13 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
             }
             actb_pre = word;
         }else{ actb_pre = -1};
-        
+
         actb_mouse_on_list = 0;
 
         if (actb_delimiter.length > 0){
             caret_pos_start = getCaretStart(actb_curr);
             caret_pos_end = getCaretEnd(actb_curr);
-            
+
             delim_split = '';
             for (i=0;i<actb_delimiter.length;i++){
                 delim_split += actb_delimiter[i];
@@ -582,7 +582,7 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
         }else{
             var re = new RegExp(t, "i");
         }
-        
+
         actb_total = 0;
         actb_tomake = false;
         actb_kwcount = 0;
@@ -605,12 +605,12 @@ function actb(obj, evt, ca, time_out, limit, first_text, expand_onfocus, multi_s
 function actb_addValue(id) {
     var value = document.getElementById(id+'_toadd_widget').value;
     var obj = document.getElementById(id+'_widget_list');
-    
+
     var value_tab = value.split(new RegExp("[;]+", "g"));
     for (var i = 0; i < value_tab.length; i++) {
         _actb_addValue(obj, value_tab[i], id);
     }
-    
+
     actb_updateWidgetValue(id);
     actb_resetWidget(id);
 }
@@ -669,7 +669,7 @@ function actb_updateWidgetValue(id) {
         empty.style.display='none';
     } else {
         empty.style.display='block';
-    }    
+    }
     if (value.length > 0) {
         value = value.substring(0, value.length - 1);
     }

@@ -5,6 +5,22 @@ Changes
 1.4 - unreleased
 ----------------
 
+* We can set as false a parameter on widget: actb_multivalued_adding_is_required,
+  so that if user hasn't clicked 'add' button on a multivalued field,
+  current input is considered as a new value.
+  Improves user experience when vocabulary is not enforced.
+  [thomasdesvenain]
+
+* Added a property in site_properties to define custom separators.
+  "," is set as a custom separator by default. ";" is always a separator.
+  [thomasdesvenain]
+
+* Fixed: was unusable out of the box with default sunburst theme.
+  [thomasdesvenain]
+
+* Consider, by default, lines fields as multiValued fields.
+  [thomasdesvenain]
+
 * Merged from trunk, keeping fixes and features
   [Quadra Informatique - jriboux]
 
