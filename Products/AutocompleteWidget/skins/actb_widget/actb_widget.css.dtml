@@ -30,7 +30,7 @@
 }
 
 .autocomplete .add_button {
-    background:transparent url(<dtml-var portal_url>/add_icon.gif) 0 0 no-repeat;
+    background:transparent url(<dtml-var portal_url>/add_icon.png) 0 0 no-repeat;
     cursor: pointer;
     font-size: &dtml-fontSmallSize;;
     padding: 1px 1px 1px 15px;
@@ -39,7 +39,7 @@
 }
 
 .autocomplete .clear_button {
-    background: transparent url(<dtml-var portal_url>/undo_icon.gif) 0 0 no-repeat;
+    background: transparent url(<dtml-var portal_url>/undo_icon.png) 0 0 no-repeat;
     cursor: pointer;
     font-size: &dtml-fontSmallSize;;
     padding: 1px 1px 1px 15px;
