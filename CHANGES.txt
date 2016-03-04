@@ -2,10 +2,11 @@ Changes
 =======
 
 
-1.4 - unreleased
+1.5.0 (unreleased)
 ----------------
 
 * Use png icons instead of gif ones (Plone 4.3 compatibility).
+  [thomasdesvenain]
 
 * We can set as false a parameter on widget: actb_multivalued_adding_is_required,
   so that if user hasn't clicked 'add' button on a multivalued field,
@@ -22,6 +23,10 @@ Changes
 
 * Consider, by default, lines fields as multiValued fields.
   [thomasdesvenain]
+
+
+1.4.0 (2011-10-24)
+------------------
 
 * Merged from trunk, keeping fixes and features
   [Quadra Informatique - jriboux]
