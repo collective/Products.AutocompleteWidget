@@ -30,19 +30,25 @@ Configuration
 There are a few parameters that can be set to
 alter the behavior of the widget:
 
-        actb_timeout:           How long (ms) before the autocomplete box times
+        actb_timeout:
+                                How long (ms) before the autocomplete box times
                                 out and dissapears. (Default: 2500, -1 to disable)
-        actb_lim:               How many choices to show in the autocomplete box
+        actb_lim:
+                                How many choices to show in the autocomplete box
                                 at a time.  (default: 5)
-        actb_firsttext:         Should the autocomplete serach be limited to the
+        actb_firsttext:
+                                Should the autocomplete serach be limited to the
                                 beginning of keyword (True), or should it search
                                 the entire entry for a match (False)? (default: 0)
-        actb_filter_bogus:      remove keywords that are not in the vocabulary and
+        actb_filter_bogus:
+                                Remove keywords that are not in the vocabulary and
                                 also remove redundant keywords, leading/trailing spaces etc.
 
-        actb_expand_onfocus:    expand the dropdown on focus.
+        actb_expand_onfocus:
+                                Expand the dropdown on focus.
 
-        actb_complete_on_tab:   set to 0 if you want tab to move the focus to the next widget.
+        actb_complete_on_tab:
+                                Set to 0 if you want tab to move the focus to the next widget.
                                 default is 1.
 
 Credits
