@@ -2,7 +2,7 @@ Changes
 =======
 
 
-1.5.0 (unreleased)
+1.5.0 (2016-03-21)
 ------------------
 
 * Use png icons instead of gif ones (Plone 4.3 compatibility).
